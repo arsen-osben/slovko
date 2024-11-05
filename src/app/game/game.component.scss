@@ -1,0 +1,64 @@
+
+.game-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  max-width: 300px;
+  margin: auto;
+  text-transform: uppercase;
+}
+
+.cell {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000;
+  text-align: center;
+  line-height: 48px;
+  font-size: 28px;
+}
+
+.win {
+  background-color: lightgreen;
+}
+
+
+.current-letter {
+  background: green;
+  color: #fff;
+}
+.is-letter {
+  background: orange;
+  color: #fff;
+}
+
+.lose {
+  .cell {
+    background-color: gray;
+    color: #fff;
+  }
+}
+
+.game-over {
+  margin-top: 20px;
+}
+
+.btn-restart {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  cursor: pointer;
+}

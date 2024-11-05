@@ -1,0 +1,12 @@
+<div class="statistics">
+  <div *ngIf="errorMessage; else profileTemplate">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <ng-template #profileTemplate>
+    <h2>Статистика</h2>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Кількість ігор:</strong> {{ games }}</p>
+    <p><strong>Кількість перемог:</strong> {{ wins }}</p>
+  </ng-template>
+</div>

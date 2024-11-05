@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { SupabaseService } from './services/supabase.service';
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
 
 @Component({
   selector: 'app-root',
@@ -7,4 +13,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'slovko';
+  constructor(public supabaseService: SupabaseService) {}
+
+  logout() {
+    this.supabaseService.signOut();
+  }
+
 }
