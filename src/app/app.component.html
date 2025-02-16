@@ -1,10 +1,6 @@
 <nav>
-  <a routerLink="/game">Game</a>
-
-  <a *ngIf="!supabaseService.isLoggedIn()" routerLink="/login">Login</a>
-
-  <a *ngIf="supabaseService.isLoggedIn()" routerLink="/statistics">Statistics</a>
-  <a *ngIf="supabaseService.isLoggedIn()" routerLink="/game" (click)="logout()">Logout</a>
+  <a routerLink="/">Game</a>
+  <a routerLink="/statistics">Statistics</a>
 </nav>
 <router-outlet></router-outlet>
 

@@ -1,5 +1,4 @@
-import { Component, HostListener } from '@angular/core';
-import { SupabaseService } from './services/supabase.service';
+import { Component } from '@angular/core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,10 +12,5 @@ import { Injectable } from '@angular/core';
 })
 export class AppComponent {
   title = 'slovko';
-  constructor(public supabaseService: SupabaseService) {}
-
-  logout() {
-    this.supabaseService.signOut();
-  }
 
 }

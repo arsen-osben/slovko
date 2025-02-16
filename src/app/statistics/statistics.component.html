@@ -1,12 +1,9 @@
 <div class="statistics">
-  <div *ngIf="errorMessage; else profileTemplate">
-    <p>{{ errorMessage }}</p>
-  </div>
-
-  <ng-template #profileTemplate>
-    <h2>Статистика</h2>
-    <p><strong>Email:</strong> {{ email }}</p>
-    <p><strong>Кількість ігор:</strong> {{ games }}</p>
-    <p><strong>Кількість перемог:</strong> {{ wins }}</p>
-  </ng-template>
+  <h2>Статистика</h2>
+  <p><strong>Загальна кількість ігор:</strong> {{ games }}</p>
+  <p><strong>Кількість перемог:</strong> {{ wins }}</p>
+  <p *ngIf="games > 0"><strong>Відсоток перемог:</strong> {{ games > 0 ? (wins / games * 100).toFixed(2): '' }} %</p>
+  <hr>
+  <p><strong>Поточна виграшна серія:</strong> {{ winStreak }}</p>
+  <p><strong>Найдовша виграшна серія:</strong> {{ longestWinStreak }}</p>
 </div>

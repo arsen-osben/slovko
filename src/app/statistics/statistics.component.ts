@@ -1,6 +1,5 @@
-// src/app/statistics/statistics.component.ts
 import { Component, OnInit } from '@angular/core';
-import { SupabaseService } from '../services/supabase.service';
+import { StatisticsService } from './statistics.service';
 
 @Component({
   selector: 'app-statistics',
@@ -8,25 +7,22 @@ import { SupabaseService } from '../services/supabase.service';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
-  email: string | null = null;
-  games: number | null = null;
-  wins: number | null = null;
-  errorMessage: string | null = null;
+  games: number = 0;
+  wins: number = 0;
+  winStreak: number = 0;
+  longestWinStreak: number = 0;
 
-  constructor(private supabaseService: SupabaseService) {}
+  constructor(private statisticsService: StatisticsService) {}
 
-  async ngOnInit() {
-    try {
-      const profile = await this.supabaseService.getProfile();
+  ngOnInit(): void {
+    this.loadStatistics();
+  }
 
-      if (profile) {
-        this.email = profile.email;
-        this.games = profile.games;
-        this.wins = profile.wins;
-      }
-    } catch (error) {
-      this.errorMessage = 'Не вдалося завантажити дані профілю.';
-      console.error(error);
-    }
+  private loadStatistics(): void {
+    const stats = this.statisticsService.getStatistics();
+    this.games = stats.games;
+    this.wins = stats.wins;
+    this.winStreak = stats.winStreak;
+    this.longestWinStreak = stats.longestWinStreak;
   }
 }

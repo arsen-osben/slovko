@@ -1,8 +1,0 @@
-<div class="form">
-  <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
-    <input id="email" formControlName="email" type="email" placeholder="Email" class="input">
-    <input id="password" formControlName="password" type="password" placeholder="Password" class="input">
-    <button type="submit" [disabled]="loading">Увійти</button>
-  </form>
-  <div *ngIf="errorMessage">{{ errorMessage }}</div>
-</div>

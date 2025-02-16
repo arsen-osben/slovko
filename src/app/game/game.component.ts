@@ -1,7 +1,7 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {SupabaseService} from "../services/supabase.service";
 import {HttpClient} from "@angular/common/http";
-
+import {StatisticsComponent} from "../statistics/statistics.component";
+import { StatisticsService } from '../statistics/statistics.service';
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
@@ -21,7 +21,7 @@ export class GameComponent implements OnInit {
   isWin: boolean = false;
   letterStatus: string[][] = Array(this.maxAttempts).fill(null).map(() => Array(5).fill(''));
 
-  constructor(private supabaseService: SupabaseService, private http: HttpClient) {
+  constructor(private http: HttpClient, private statisticsService: StatisticsService) {
   }
 
   ngOnInit(): void {
@@ -29,8 +29,8 @@ export class GameComponent implements OnInit {
   }
 
   loadWords(): void {
-    this.http.get<any>('assets/only-words-5.json').subscribe(data => {
-      this.wordsArray = data['Лист1'].map((item: any) => item.word_binary);
+    this.http.get<any>('assets/w5.json').subscribe(data => {
+      this.wordsArray = data.map((item: any) => item.word_binary);
       this.startNewGame();
     });
   }
@@ -42,20 +42,24 @@ export class GameComponent implements OnInit {
     const letter = event.key.toLowerCase();
     const allowedLetters = /^[а-щА-ЩЬьЮюЯяЇїІіЄєҐґ]$/;
 
+
     if (allowedLetters.test(letter) && this.currentLetterIndex < 5) {
       this.gameGrid[this.currentAttempt][this.currentLetterIndex] = letter;
       this.currentLetterIndex++;
-
-      if (this.currentLetterIndex === 5) {
-        this.checkWord();
-      }
     }
-
     else if (event.key === 'Backspace' && this.currentLetterIndex > 0) {
       this.currentLetterIndex--;
       this.gameGrid[this.currentAttempt][this.currentLetterIndex] = '';
     }
+    else if (event.key === 'Enter') {
+      if (this.currentLetterIndex === 5) {
+        this.checkWord();
+      } else {
+        console.warn('Введіть 5 літер перед перевіркою.');
+      }
+    }
   }
+
 
   private getRandomWord(): string {
     const randomIndex = Math.floor(Math.random() * this.wordsArray.length);
@@ -87,41 +91,32 @@ export class GameComponent implements OnInit {
       } else if (this.secretWord.includes(guessedLetter)) {
         this.letterStatus[this.currentAttempt][i] = 'is-letter';
       }
+      else {
+        this.letterStatus[this.currentAttempt][i] = 'no-letter';
+      }
     }
-
 
     if (currentWord === this.secretWord) {
       this.rowStatus[this.currentAttempt] = 'win';
       this.isWin = true;
       this.gameOver = true;
-      if (this.supabaseService.isLoggedIn()) {
-      this.saveGameStats(true);
-      }
+      this.statisticsService.updateStatistics(this.isWin);
 
     } else {
       this.currentAttempt++;
       this.currentLetterIndex = 0;
 
       if (this.currentAttempt >= this.maxAttempts) {
+        this.isWin = false;
         this.gameOver = true;
         this.rowStatus[this.currentAttempt] = 'lose';
-        if (this.supabaseService.isLoggedIn()) {
-          this.saveGameStats(false);
-        }
+        this.statisticsService.updateStatistics(this.isWin);
       }
     }
   }
 
   getLetterClass(rowIndex: number, cellIndex: number): string {
     return this.letterStatus[rowIndex][cellIndex];
-  }
-
-
-  async saveGameStats(won: boolean) {
-    const user = await this.supabaseService.getUser();
-    if (user) {
-      await this.supabaseService.saveGameStats(won);
-    }
   }
 
 

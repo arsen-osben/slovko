@@ -1,12 +1,15 @@
 <div class="game-container">
   <div class="grid">
     <div *ngFor="let row of gameGrid; let rowIndex = index" class="row" [ngClass]="rowStatus[rowIndex]">
-      <div *ngFor="let cell of row; let cellIndex = index" class="cell" [ngClass]="getLetterClass(rowIndex, cellIndex)">{{ cell }}</div>
+      <div *ngFor="let cell of row; let cellIndex = index" class="cell"
+           [ngClass]="getLetterClass(rowIndex, cellIndex)">{{ cell }}
+      </div>
     </div>
   </div>
   <div *ngIf="gameOver" class="game-over">
     <p *ngIf="isWin">Вітаємо, ви виграли!</p>
     <p *ngIf="!isWin">Ви програли :(</p>
+    <p *ngIf="!isWin">Загадане слово: <b>{{ this.secretWord | uppercase }}</b></p>
     <button class="btn-restart" (click)="startNewGame()">Рестарт</button>
   </div>
 </div>
