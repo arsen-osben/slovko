@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Injectable, OnInit } from '@angular/core';
+declare let Telegram: any;
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,13 @@ import { Injectable, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'slovko';
   ngOnInit() {
-    if ((window as any).Telegram?.WebApp) {
-      (window as any).Telegram.WebApp.expand(); // Розширює гру на весь екран
-    }
+    setTimeout(() => {
+      if (window.Telegram && window.Telegram.WebApp) {
+        console.log('Telegram API loaded:', window.Telegram);
+      } else {
+        console.error('Telegram API is not available');
+      }
+    }, 2000); // Дати час на завантаження
   }
+
 }
