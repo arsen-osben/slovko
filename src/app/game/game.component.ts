@@ -21,6 +21,11 @@ export class GameComponent implements OnInit {
   isWin: boolean = false;
   letterStatus: string[][] = Array(this.maxAttempts).fill(null).map(() => Array(5).fill(''));
 
+  alphabet: string[] = [
+    'а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з', 'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я', 'ʼ'
+  ];
+
+
   constructor(private http: HttpClient, private statisticsService: StatisticsService) {
   }
 
@@ -60,6 +65,44 @@ export class GameComponent implements OnInit {
     }
   }
 
+  onLetterClick(letter: string): void {
+    if (this.gameOver || this.currentLetterIndex >= 5) return;
+
+    this.gameGrid[this.currentAttempt][this.currentLetterIndex] = letter;
+    this.currentLetterIndex++;
+  }
+
+  onBackspaceClick(): void {
+    if (this.currentLetterIndex > 0) {
+      this.currentLetterIndex--;
+      this.gameGrid[this.currentAttempt][this.currentLetterIndex] = '';
+    }
+  }
+
+  onEnterClick(): void {
+    if (this.currentLetterIndex === 5) {
+      const enteredWord = this.gameGrid[this.currentAttempt].join('');
+      if (enteredWord === this.secretWord) {
+        this.rowStatus[this.currentAttempt] = 'win';
+        this.isWin = true;
+        this.gameOver = true;
+        this.statisticsService.updateStatistics(this.isWin);
+
+      } else {
+        this.currentAttempt++;
+        this.currentLetterIndex = 0;
+
+        if (this.currentAttempt >= this.maxAttempts) {
+          this.isWin = false;
+          this.gameOver = true;
+          this.rowStatus[this.currentAttempt] = 'lose';
+          this.statisticsService.updateStatistics(this.isWin);
+        }
+      }
+    }
+  }
+
+
 
   private getRandomWord(): string {
     const randomIndex = Math.floor(Math.random() * this.wordsArray.length);
@@ -81,6 +124,12 @@ export class GameComponent implements OnInit {
   checkWord() {
     const currentWord = this.gameGrid[this.currentAttempt].join('');
     this.letterStatus[this.currentAttempt] = Array(5).fill('');
+
+    if (!this.wordsArray.includes(currentWord)) {
+      alert('Такого слова не існує! Спробуйте ще раз.');
+      return;
+    }
+
 
     for (let i = 0; i < 5; i++) {
       const guessedLetter = currentWord[i];

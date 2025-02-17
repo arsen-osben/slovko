@@ -21,7 +21,20 @@ nav {
   gap: 24px;
   text-transform: uppercase;
   padding: 30px 0;
+
   a {
     color: #333;
+  }
+}
+
+@media (max-width: 400px) {
+  nav {
+    padding: 10px 0 15px 0;
+  }
+}
+
+@media (max-width: 350px) {
+  nav {
+    padding: 0 0 10px 0;
   }
 }

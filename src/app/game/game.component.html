@@ -12,4 +12,14 @@
     <p *ngIf="!isWin">Загадане слово: <b>{{ this.secretWord | uppercase }}</b></p>
     <button class="btn-restart" (click)="startNewGame()">Рестарт</button>
   </div>
+
+</div>
+<div class="keyboard">
+  <div class="keyboard-list">
+    <button *ngFor="let letter of alphabet" (click)="onLetterClick(letter)">{{ letter }}</button>
+  </div>
+  <div class="keyboard-nav">
+    <button (click)="onBackspaceClick()">Backspace</button>
+    <button (click)="checkWord()">Enter</button>
+  </div>
 </div>

@@ -39,14 +39,17 @@
   background: green;
   color: #fff;
 }
+
 .is-letter {
   background: orange;
   color: #fff;
 }
+
 .no-letter {
   background: #787c7e;
   color: #fff;
 }
+
 .lose {
   .cell {
     background-color: gray;
@@ -64,4 +67,82 @@
   padding: 15px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.keyboard {
+  max-width: 600px;
+  margin: 0 auto;
+}
+.keyboard-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-top: 20px;
+
+}
+
+.keyboard-nav {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 5px;
+  button {
+    text-transform: unset !important;
+  }
+}
+
+.keyboard button {
+  padding: 10px;
+  font-size: 18px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.keyboard button:active {
+  background-color: #ddd;
+}
+
+@media (max-width: 400px) {
+  .keyboard-list {
+    gap: 4px;
+    button {
+      padding: 6px 4px;
+    }
+  }
+  .keyboard-nav {
+    gap: 4px;
+    button {
+      padding: 6px 4px;
+    }
+  }
+  .cell {
+    width: 30px;
+    height: 30px;
+    font-size: 24px;
+    line-height: 28px;
+  }
+  .grid {
+    gap: 5px;
+  }
+}
+
+@media (max-width: 350px) {
+  .keyboard-list {
+    gap: 4px;
+    button {
+      padding: 4px;
+    }
+  }
+  .keyboard-nav {
+    gap: 4px;
+    button {
+      padding: 4px;
+    }
+  }
+  .keyboard-list {
+    margin-top: 10px;
+  }
 }
